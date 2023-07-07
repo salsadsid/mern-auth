@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useRegisterMutation } from "../../features/auth/authApi";
 
 const SignUp = () => {
   const {
@@ -10,8 +11,13 @@ const SignUp = () => {
   } = useForm();
   const password=watch("password");
   const confirmPassword=watch("confirmPassword");
-  const handleSignUp = (data) => {
-    console.log(data);
+
+  const [registerUser,{isLoading}]=useRegisterMutation()
+
+
+  const handleSignUp =async (data) => {
+    const res = await registerUser({...data,confirmPassword:undefined});
+    console.log(res)
   };
   return (
     <main className="w-full flex flex-col items-center justify-center bg-gray-50 sm:px-4">
@@ -90,7 +96,7 @@ const SignUp = () => {
             <div>
               <label className="font-medium">Confirm Password</label>
               <input
-                type="confirmPassword"
+                type="password"
                 {...register("confirmPassword",{
                   required:"Password is required",
                   validate:{
