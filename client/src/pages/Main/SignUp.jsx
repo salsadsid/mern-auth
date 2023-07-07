@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
-  const handleLogin = (data) => {
+  const handleSignUp = (data) => {
     console.log(data);
   };
   return (
@@ -20,17 +20,17 @@ const SignUp = () => {
             </h3>
             <p className="">
               Already have an account?{" "}
-              <a
-                href="javascript:void(0)"
+              <Link
+               to="/login"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 Log in
-              </a>
+              </Link>
             </p>
           </div>
         </div>
         <div className="bg-white shadow p-4 py-6 sm:p-6 sm:rounded-lg">
-          <form onSubmit={handleSubmit(handleLogin)} className="space-y-5">
+          <form onSubmit={handleSubmit(handleSignUp)} className="space-y-5">
             <div>
               <label className="font-medium">Username</label>
               <input
