@@ -5,8 +5,11 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
+  const password=watch("password");
+  const confirmPassword=watch("confirmPassword");
   const handleSignUp = (data) => {
     console.log(data);
   };
@@ -84,7 +87,23 @@ const SignUp = () => {
               />
               {errors.password?.message && <small className="text-orange-700">{errors.password.message}</small>}
             </div>
-            <button className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
+            <div>
+              <label className="font-medium">Confirm Password</label>
+              <input
+                type="confirmPassword"
+                {...register("confirmPassword",{
+                  required:"Password is required",
+                  validate:{
+                    minLength: (v) => v.length > 5 || "Password must have 6 characters",
+                    matchPattern:(v)=>/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/.test(v) ||
+                    "Password must have at least 1 letter and number."
+                  }
+                })}
+                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              />
+              {password!==confirmPassword && <small className="text-orange-700">Password does not match.</small>}
+            </div>
+            <button disabled={password!==confirmPassword} className={`w-full px-4 py-2 text-white font-medium  ${password!==confirmPassword ?"bg-indigo-200" : "bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600" }  rounded-lg duration-150`}>
               Create account
             </button>
           </form>
