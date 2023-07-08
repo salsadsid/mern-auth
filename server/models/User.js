@@ -17,6 +17,11 @@ const userSchema = mongoose.Schema(
       unique: [true, "User already exists."],
       required: [true, "Email is required"],
     },
+    role: {
+      type: String,
+      enum: ["user", "moderator", "admin"],
+      default: "user",
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -42,6 +47,14 @@ userSchema.pre("save",function(next){
   this.password = hashedPassword;
   next();
 })
+
+userSchema.methods.comparePassword = async function (password, hash) {
+  let isPasswordValid;
+  
+  isPasswordValid = await bcrypt.compare(password, hash);
+  console.log(isPasswordValid,"sa")
+  return isPasswordValid;
+};
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 

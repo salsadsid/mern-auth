@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useLoginMutation } from "../../features/auth/authApi";
 
 const Login = () => {
   const {
@@ -7,8 +8,10 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const handleLogin = (data) => {
-    console.log(data);
+  const [loginUser,{isLoading}]=useLoginMutation()
+  const handleLogin =async (data) => {
+    const res =  await loginUser(data)
+    console.log(res)
   };
   return (
     <section className="relative w-full flex flex-col items-center justify-center bg-white px-4">
