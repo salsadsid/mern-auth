@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../features/auth/authApi";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../features/auth/authSlice";
 
 const Login = () => {
   const {
@@ -8,10 +10,18 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const dispatch=useDispatch()
+  const navigate =useNavigate()
   const [loginUser,{isLoading}]=useLoginMutation()
   const handleLogin =async (data) => {
-    const res =  await loginUser(data)
-    console.log(res)
+    try {
+      const res = await loginUser(data)
+      dispatch(setCredentials({ ...res }));
+      navigate('/');
+    } catch (err) {
+      // toast.error(err?.data?.message || err.error);
+      console.log(err)
+    }
   };
   return (
     <section className="relative w-full flex flex-col items-center justify-center bg-white px-4">

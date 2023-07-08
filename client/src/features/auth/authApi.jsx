@@ -15,8 +15,16 @@ const authApi= apiSlice.injectEndpoints({
                 method:"POST",
                 body:data
             })
+        }),
+        persistAuth:builder.query({
+            query:(data)=>({
+                url:`user/auth`,
+                headers:{
+                    authorization:`Bearer ${JSON.parse(localStorage.getItem("accessToken"))}`
+                }
+            })
         })
     })
 })
 
-export const {useRegisterMutation,useLoginMutation}= authApi
+export const {useRegisterMutation,useLoginMutation,usePersistAuthQuery}= authApi
