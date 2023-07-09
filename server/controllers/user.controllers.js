@@ -21,6 +21,7 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
+    console.log(req.body )
     const { email, password } = req.body;
     if (!email || !password) {
       return res.status(401).json({
@@ -84,12 +85,36 @@ exports.login = async (req, res, next) => {
 
 exports.persistAuth=async(req,res,next)=>{
   try {
-    const user = await findUserByEmail(req.user?.email)
-    const { password: pwd, ...other } = user.toObject()
-    res.status(200).json({
-        status: "success",
-        user: other
-    })
+    const cookie = req.cookies
+    console.log(cookie)
+    if (!cookie?.jwt) return res.status(401).json({ message: 'Unauthorized' })
+
+    const refreshToken = cookie.jwt
+    console.log(refreshToken)
+    jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        async (err, decoded) => {
+            if (err) return res.status(403).json({ message: 'Forbidden' })
+            const email= decoded?.email
+            const user = await findUserByEmail(email)
+
+            if (!user) return res.status(401).json({ message: 'Unauthorized' })
+
+            const accessToken = jwt.sign(
+                {
+                    "UserInfo": {
+                        "email": user.email,
+                        "role": user.role
+                    }
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '1d' }
+            )
+
+            res.json({ accessToken })
+        }
+    )
 } catch (error) {
     res.status(500).json({
         status: "Fail",
@@ -97,3 +122,4 @@ exports.persistAuth=async(req,res,next)=>{
     })
 }
 }
+
