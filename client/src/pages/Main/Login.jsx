@@ -16,11 +16,13 @@ const Login = () => {
   const handleLogin =async (data) => {
     const {email,password}= data
     try {
-      const res = await loginUser({email,password})
-      
+      const {data} = await loginUser({email,password})
+      console.log(data)
+      const {accessToken}=data
+      dispatch(setCredentials({ accessToken }))
       // dispatch(setCredentials({ ...res }));
       navigate('/');
-      console.log(res)
+      console.log(accessToken)
     } catch (err) {
       // toast.error(err?.data?.message || err.error);
       console.log(err)
