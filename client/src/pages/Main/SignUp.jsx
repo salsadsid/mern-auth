@@ -2,8 +2,11 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useRegisterMutation } from "../../features/auth/authApi";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "../../features/auth/authSlice";
 
 const SignUp = () => {
+  
   const {
     register,
     handleSubmit,

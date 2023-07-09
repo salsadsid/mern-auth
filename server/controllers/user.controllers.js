@@ -55,13 +55,13 @@ exports.login = async (req, res, next) => {
           }
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '1d' }
+      { expiresIn: '10s' }
   )
       // console.log(accessToken,"access")
   const refreshToken = jwt.sign(
       { "email": user.email },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '20s' }
   )
   // console.log(refreshToken,"refre")
   // Create secure cookie with refresh token 
@@ -109,7 +109,7 @@ exports.persistAuth=async(req,res,next)=>{
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '1d' }
+                { expiresIn: '10s' }
             )
 
             res.json({ accessToken })

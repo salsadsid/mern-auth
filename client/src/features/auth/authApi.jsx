@@ -17,8 +17,24 @@ const authApi = apiSlice.injectEndpoints({
         body: {...data},
       }),
     }),
+    refresh: builder.mutation({
+        query: () => ({
+            url: 'user/auth',
+            method: 'GET',
+        }),
+        async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+            try {
+                const { data } = await queryFulfilled
+                console.log(data)
+                const { accessToken } = data
+                dispatch(setCredentials({ accessToken }))
+            } catch (err) {
+                console.log(err)
+            }
+        }
+    }),
   })
 });
 
-export const { useRegisterMutation, useLoginMutation } =
+export const { useRegisterMutation, useLoginMutation ,useRefreshMutation} =
   authApi;

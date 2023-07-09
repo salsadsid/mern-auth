@@ -26,7 +26,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
         console.log('sending refresh token')
 
         // send refresh token to get new access token 
-        const refreshResult = await baseQuery('/auth', api, extraOptions)
+        const refreshResult = await baseQuery('user/auth', api, extraOptions)
         console.log(refreshResult,"refresh")
         if (refreshResult?.data) {
 
