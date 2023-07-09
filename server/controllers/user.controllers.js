@@ -57,13 +57,13 @@ exports.login = async (req, res, next) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: '1d' }
   )
-      console.log(accessToken,"access")
+      // console.log(accessToken,"access")
   const refreshToken = jwt.sign(
       { "email": user.email },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: '7d' }
   )
-  console.log(refreshToken,"refre")
+  // console.log(refreshToken,"refre")
   // Create secure cookie with refresh token 
   res.cookie('jwt', refreshToken, {
       httpOnly: true, //accessible only by web server 

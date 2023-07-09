@@ -14,8 +14,10 @@ const Login = () => {
   const navigate =useNavigate()
   const [loginUser,{isLoading}]=useLoginMutation()
   const handleLogin =async (data) => {
+    const {email,password}= data
     try {
-      const res = await loginUser(data)
+      const res = await loginUser({email,password})
+      
       // dispatch(setCredentials({ ...res }));
       navigate('/');
       console.log(res)
