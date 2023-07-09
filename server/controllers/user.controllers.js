@@ -55,13 +55,13 @@ exports.login = async (req, res, next) => {
           }
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '10s' }
+      { expiresIn: '1d' }
   )
       // console.log(accessToken,"access")
   const refreshToken = jwt.sign(
       { "email": user.email },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: '20s' }
+      { expiresIn: '7d' }
   )
   // console.log(refreshToken,"refre")
   // Create secure cookie with refresh token 
@@ -109,7 +109,7 @@ exports.persistAuth=async(req,res,next)=>{
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '10s' }
+                { expiresIn: '1d' }
             )
 
             res.json({ accessToken })
@@ -121,5 +121,12 @@ exports.persistAuth=async(req,res,next)=>{
         error,
     })
 }
+}
+
+exports.logOut = (req, res) => {
+  const cookies = req.cookies
+  if (!cookies?.jwt) return res.sendStatus(204) //No content
+  res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
+  res.json({ message: 'Cookie cleared' })
 }
 

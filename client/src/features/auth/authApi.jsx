@@ -1,5 +1,5 @@
 import apiSlice from "../api/apiSlice";
-import { setCredentials } from "./authSlice";
+import { logOut, setCredentials } from "./authSlice";
 
 const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -17,6 +17,25 @@ const authApi = apiSlice.injectEndpoints({
         body: {...data},
       }),
     }),
+    sendLogOut: builder.mutation({
+      query: () => ({
+          url: 'user/logout',
+          method: 'POST',
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+          try {
+              const { data } = await queryFulfilled
+              console.log(data)
+              const res =dispatch(logOut())
+              console.log(res)
+              // setTimeout(() => {
+                  dispatch(apiSlice.util.resetApiState())
+              // }, 1000)
+          } catch (err) {
+              console.log(err)
+          }
+      }
+  }),
     refresh: builder.mutation({
         query: () => ({
             url: 'user/auth',
@@ -36,5 +55,5 @@ const authApi = apiSlice.injectEndpoints({
   })
 });
 
-export const { useRegisterMutation, useLoginMutation ,useRefreshMutation} =
+export const { useRegisterMutation, useLoginMutation ,useRefreshMutation,useSendLogOutMutation} =
   authApi;
