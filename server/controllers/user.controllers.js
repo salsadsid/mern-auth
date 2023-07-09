@@ -1,5 +1,6 @@
 const { signupService, findUserByEmail } = require("../services/user.services");
 const { generateToken } = require("../utils/generateToken");
+const jwt = require('jsonwebtoken');
 
 exports.signup = async (req, res, next) => {
   try {
@@ -37,7 +38,7 @@ exports.login = async (req, res, next) => {
       });
     }
     const isPasswordValid = await user.comparePassword(password, user.password);
-    console.log(isPasswordValid,user)
+    // console.log(isPasswordValid,user)
 
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -45,17 +46,33 @@ exports.login = async (req, res, next) => {
         message: "Password is not correct",
       });
     }
-    const token = generateToken(user);
-    const { password: pwd, ...other } = user.toObject();
-
-    res.status(200).json({
-      status: "Success",
-      message: "Successfully Logged in",
-      data: {
-        user: other,
-        token,
+    const accessToken = jwt.sign(
+      {
+          "UserInfo": {
+              "email": user.email,
+              "role": user.role
+          }
       },
-    });
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: '1d' }
+  )
+      console.log(accessToken,"access")
+  const refreshToken = jwt.sign(
+      { "email": user.email },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: '7d' }
+  )
+  console.log(refreshToken,"refre")
+  // Create secure cookie with refresh token 
+  res.cookie('jwt', refreshToken, {
+      httpOnly: true, //accessible only by web server 
+      secure: true, //https
+      sameSite: 'None', //cross-site cookie 
+      maxAge: 7 * 24 * 60 * 60 * 1000 //cookie expiry: set to match rT
+  })
+
+  // Send accessToken containing username and roles 
+  res.json({ accessToken })
   } catch (error) {
     res.status(500).json({
       status: "Fail",

@@ -16,8 +16,9 @@ const Login = () => {
   const handleLogin =async (data) => {
     try {
       const res = await loginUser(data)
-      dispatch(setCredentials({ ...res }));
+      // dispatch(setCredentials({ ...res }));
       navigate('/');
+      console.log(res)
     } catch (err) {
       // toast.error(err?.data?.message || err.error);
       console.log(err)
