@@ -10,23 +10,23 @@ const EditProfile = () => {
       <div className="flex justify-center items-center h-full ">
         <form className="shadow-lg p-10 rounded-md flex flex-wrap gap-3 max-w-3xl md:justify-between justify-center bg-white">
           <div className="flex flex-col w-full max-w-xs">
-            <label className="mb-2" htmlFor="model">
+            <label className="mb-2 font-medium" htmlFor="model">
               Name
             </label>
-            <input type="text" id="model" {...register("model")} />
+            <input type="text" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" {...register("model")} />
           </div>
           <div className="flex flex-col w-full max-w-xs">
             <label className="mb-2" htmlFor="image">
               Email
             </label>
-            <input type="text" name="image" id="image" {...register("image")} />
+            <input type="text" name="image" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" {...register("image")} />
           </div>
 
           <div className="flex flex-col w-full max-w-xs">
             <label className="mb-3" htmlFor="brand">
               Brand
             </label>
-            <select name="brand" id="brand" {...register("brand")}>
+            <select name="brand" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" {...register("brand")}>
               <option value="amd">AMD</option>
               <option value="intel">Intel</option>
             </select>
@@ -35,7 +35,7 @@ const EditProfile = () => {
             <label className="mb-2" htmlFor="price">
               Image
             </label>
-            <input type="text" name="price" id="price" {...register("price")} />
+            <input type="text" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" name="price" id="price" {...register("price")} />
           </div>
 
           <div className="flex flex-col w-full max-w-xs">
@@ -43,6 +43,7 @@ const EditProfile = () => {
             <div className="flex gap-3">
               <div>
                 <input
+                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   type="radio"
                   id="available"
                   value={true}
@@ -53,7 +54,8 @@ const EditProfile = () => {
                 </label>
               </div>
               <div>
-                <input
+                <input 
+                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   type="radio"
                   id="stockOut"
                   name="status"
@@ -76,6 +78,7 @@ const EditProfile = () => {
               Skill Set #1
             </label>
             <input
+            className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="keyFeature1"
               id="keyFeature1"
@@ -87,6 +90,7 @@ const EditProfile = () => {
               Skill Set #4
             </label>
             <input
+             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="keyFeature2"
               id="keyFeature2"
@@ -98,6 +102,7 @@ const EditProfile = () => {
               Skill Set #3
             </label>
             <input
+             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="keyFeature3"
               id="keyFeature3"
@@ -109,6 +114,7 @@ const EditProfile = () => {
               Skill Set #4
             </label>
             <input
+             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="keyFeature4"
               id="keyFeature4"
@@ -125,6 +131,7 @@ const EditProfile = () => {
               Hobbies 1
             </label>
             <input
+             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="keyFeature1"
               id="keyFeature1"
@@ -136,6 +143,7 @@ const EditProfile = () => {
               Hoobies 12
             </label>
             <input
+             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="keyFeature2"
               id="keyFeature2"
@@ -147,6 +155,7 @@ const EditProfile = () => {
               Skill Set #3
             </label>
             <input
+             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="keyFeature3"
               id="keyFeature3"
@@ -158,6 +167,7 @@ const EditProfile = () => {
               Skill Set #4
             </label>
             <input
+             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="keyFeature4"
               id="keyFeature4"
