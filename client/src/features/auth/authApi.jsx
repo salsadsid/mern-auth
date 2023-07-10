@@ -52,8 +52,14 @@ const authApi = apiSlice.injectEndpoints({
             }
         }
     }),
+    userDetails:builder.query({
+      query:(email)=>({
+        url:`user/${email}`,
+        method:'GET'
+      })
+    })
   })
 });
 
-export const { useRegisterMutation, useLoginMutation ,useRefreshMutation,useSendLogOutMutation} =
+export const { useRegisterMutation, useLoginMutation ,useRefreshMutation,useSendLogOutMutation , useUserDetailsQuery} =
   authApi;

@@ -122,7 +122,11 @@ exports.persistAuth=async(req,res,next)=>{
     })
 }
 }
-
+exports.userDetails=async(req,res,next)=>{
+  const email=req.params.email
+  const user = await findUserByEmail(email);
+  res.json(user)
+}
 exports.logOut = (req, res) => {
   const cookies = req.cookies
   if (!cookies?.jwt) return res.sendStatus(204) //No content
