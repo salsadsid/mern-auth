@@ -4,6 +4,7 @@ import Home from "../pages/Main/Home";
 import Login from "../pages/Main/Login";
 import SignUp from "../pages/Main/SignUp";
 import Profile from "../pages/Main/Profile";
+import EditProfile from "../pages/Main/EditProfile";
 
 
 const routes = createBrowserRouter([
@@ -26,6 +27,10 @@ const routes = createBrowserRouter([
             {
                 path:"profile",
                 element:<Profile/>
+            },
+            {
+                path:"update",
+                element:<EditProfile/>
             },
 
         ]
