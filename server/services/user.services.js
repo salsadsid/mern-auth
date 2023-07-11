@@ -13,3 +13,9 @@ exports.findUserByEmail = async (email) => {
 exports.findUserByToken = async (token) => {
     return await User.findOne({ confirmationToken: token })
 }
+
+exports.findAndUpdateUserProfile=async(userId,data)=>{
+    const result = await User.updateOne({ _id: userId }, { $set: data }, { runValidators: true })
+
+    return result
+}

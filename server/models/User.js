@@ -43,7 +43,7 @@ const userSchema = mongoose.Schema(
     skills:[{
       type:String
     }],
-    Hobbies:[{
+    hobbies:[{
       type:String
     }]
   },

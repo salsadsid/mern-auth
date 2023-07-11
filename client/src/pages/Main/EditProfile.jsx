@@ -1,21 +1,22 @@
 import { useForm } from "react-hook-form";
-import { useUserDetailsQuery } from "../../features/auth/authApi";
+import { useUpdateUserProfileMutation, useUserDetailsQuery } from "../../features/auth/authApi";
 import useAuth from "../../hooks/useAuth";
 import BeatLoader from "react-spinners/BeatLoader";
 import { useEffect, useMemo } from "react";
 
 const EditProfile = () => {
   const { email, role } = useAuth();
-  const {data:userInfo,isLoading,isSuccess}=useUserDetailsQuery(email,{refetchOnMountOrArgChange:true});
+  const {data:userInfo,isLoading,isSuccess}=useUserDetailsQuery(email);
   const { register, handleSubmit, reset } = useForm({defaultValues:useMemo(()=>{
     return {
       email:userInfo?.email,
-    username:userInfo?.username,
-    role:userInfo?.role,
-    name:userInfo?.nome,
-    aboutMe:userInfo?.aboutMe
+      username:userInfo?.username,
+      role:userInfo?.role,
+      name:userInfo?.nome,
+      aboutMe:userInfo?.aboutMe
     }
   },[isSuccess])});
+  const [updateProfile,{isLoading:isLoading2,isSuccess:isSuccess2}]=useUpdateUserProfileMutation();
   useEffect(()=>{
     reset({
       email:userInfo?.email,
@@ -26,12 +27,31 @@ const EditProfile = () => {
     })
   },[isSuccess])
   console.log(userInfo)
-  if(isLoading){
+  if(isLoading || isLoading2){
     return <BeatLoader color="#36d7b7" />
   }
   
   const submit=(data)=>{
-    console.log(data)
+    console.log(data);
+    updateProfile({
+      ...userInfo,
+      name:data.name,
+      aboutMe:data.aboutMe,
+      skills:[
+        ...userInfo.skills,
+        data.skill1,
+        data.skill2,
+        data.skill3,
+        data.skill4,
+      ],
+      hobbies:[
+        ...userInfo.hobbies,
+        data.hobbies1,
+        data.hobbies2,
+        data.hobbies3,
+        data.hobbies4,
+      ]
+    })
   }
   return (
     <div>
@@ -167,15 +187,15 @@ const EditProfile = () => {
             />
           </div>
           <div className="flex flex-col w-full max-w-xs">
-            <label className="mb-2 font-medium" htmlFor="hobbies">
+            <label className="mb-2 font-medium" htmlFor="hobbies4">
               Hobbies #4
             </label>
             <input
              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
-              name="hobbies"
-              id="hobbies"
-              {...register("hobbies")}
+              name="hobbies4"
+              id="hobbies4"
+              {...register("hobbies4")}
             />
           </div>
 

@@ -8,5 +8,6 @@ router.route("/signup").post(userController.signup);
 router.route("/login").post(userController.login);
 router.route('/auth').get(userController.persistAuth)
 router.route('/logout').post(userController.logOut)
+router.route('/update').patch(userController.updateProfile)
 router.route("/:email").get(userController.userDetails);
 module.exports = router;
