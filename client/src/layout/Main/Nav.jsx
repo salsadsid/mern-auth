@@ -82,7 +82,7 @@ const Nav = () => {
   );
 
   return (
-    <header className=" bg-gray-900">
+    <header className=" bg-gray-900 sticky top-0 z-50">
       <div className={`md:hidden ${state ? "mx-2 pb-5" : "hidden"}`}>
         <Brand />
       </div>
@@ -104,9 +104,9 @@ const Nav = () => {
               {navigation.map((item, idx) => {
                 return (
                   <li key={idx} className="text-gray-300 hover:text-gray-400">
-                    <a href={item.path} className="block">
+                    <Link href={item.path} className="block">
                       {item.title}
-                    </a>
+                    </Link>
                   </li>
                 );
               })}
@@ -136,7 +136,7 @@ const Nav = () => {
                   <li>
                   <button
                     onClick={handleLogOutClick}
-                    className="flex items-center justify-center gap-x-1 py-2 px-4 text-white font-medium bg-sky-500 hover:bg-sky-400 active:bg-sky-600 duration-150 rounded-lg md:inline-flex"
+                    className="flex w-full items-center justify-center gap-x-1 py-2 px-4 text-white font-medium bg-sky-500 hover:bg-sky-400 active:bg-sky-600 duration-150 rounded-lg md:inline-flex"
                   >
                     Log Out
                   </button>
