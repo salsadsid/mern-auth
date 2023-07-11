@@ -6,23 +6,23 @@ import { useEffect, useMemo } from "react";
 
 const EditProfile = () => {
   const { email, role } = useAuth();
-  const {data:userInfo,isLoading,isSuccess}=useUserDetailsQuery(email);
+  const {data:userInfo,isLoading,isSuccess,}=useUserDetailsQuery(email,{refetchOnMountOrArgChange:true});
   const { register, handleSubmit, reset } = useForm({defaultValues:useMemo(()=>{
     return {
       email:userInfo?.email,
       username:userInfo?.username,
       role:userInfo?.role,
-      name:userInfo?.nome,
+      name:userInfo?.name,
       aboutMe:userInfo?.aboutMe
     }
-  },[isSuccess])});
+  },[userInfo])});
   const [updateProfile,{isLoading:isLoading2,isSuccess:isSuccess2}]=useUpdateUserProfileMutation();
   useEffect(()=>{
     reset({
       email:userInfo?.email,
     username:userInfo?.username,
     role:userInfo?.role,
-    name:userInfo?.nome,
+    name:userInfo?.name,
     aboutMe:userInfo?.aboutMe
     })
   },[isSuccess])
