@@ -134,6 +134,10 @@ exports.userDetails = async (req, res, next) => {
 exports.updateProfile = async (req, res, next) => {
   try {
     console.log(req.body);
+    const skills=req.body?.skills.filter(skill=>skill!="")
+    req.body.skills=skills;
+    const hobbies=req.body?.hobbies.filter(hobbie=>hobbie!="")
+    req.body.hobbies=hobbies;
     const result = await findAndUpdateUserProfile(req.body._id, req.body);
     if (result) {
       res.status(200).json({

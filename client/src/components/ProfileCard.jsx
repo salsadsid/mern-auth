@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const ProfileCard = ({userInfo}) => {
-  console.log(userInfo)
+  const {name,role,aboutMe,skills,hobbies} =userInfo
   return (
     <div className="max-w-3xl md:m-2 w-full border-2 m-3 px-8 py-4">
       <div className="mb-6">
@@ -11,10 +11,10 @@ const ProfileCard = ({userInfo}) => {
           alt="Bonnie image"
         />
         <h5 className="mb-1 text-2xl font-bold text-gray-900 dark:text-white">
-          Bonnie Green
+          {name}
         </h5>
         <span className="text-sm text-gray-500 dark:text-gray-400">
-          Visual Designer
+          {role}
         </span>
       </div>
       <div className="flex flex-col mb-6 justify-between">
@@ -25,10 +25,7 @@ const ProfileCard = ({userInfo}) => {
           About Me
         </p>
         <p className=" text-md font-normal text-gray-900 dark:text-white">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum cum
-          nesciunt libero beatae explicabo ea at nemo, quia eligendi quidem, quo
-          molestiae animi quod enim itaque consequuntur reiciendis tempore
-          dicta!
+          {aboutMe}
         </p>
       </div>
       <div className="mb-6">
@@ -36,51 +33,11 @@ const ProfileCard = ({userInfo}) => {
           Skills
         </p>
         <div>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            HTML
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            CSS
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            JavaScript
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            HTML
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            CSS
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            JavaScript
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            HTML
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            CSS
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            JavaScript
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            HTML
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            CSS
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            JavaScript
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            HTML
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            CSS
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            JavaScript
-          </span>
+          {
+            skills?.map(skill=><span key={skill} className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+            {skill}
+          </span>)
+          }
         </div>
       </div>
       <div className="mb-6">
@@ -88,51 +45,12 @@ const ProfileCard = ({userInfo}) => {
           Hobbies
         </p>
         <div className="">
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            HTML
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            CSS
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            JavaScript
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            HTML
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            CSS
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            JavaScript
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            HTML
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            CSS
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            JavaScript
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            HTML
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            CSS
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            JavaScript
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            HTML
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            CSS
-          </span>
-          <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            JavaScript
-          </span>
+        {
+            hobbies?.map(hobbie=><span key={hobbie} className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+            {hobbie}
+          </span>)
+          }
+         
         </div>
       </div>
       <div>

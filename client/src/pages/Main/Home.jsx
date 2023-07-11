@@ -1,6 +1,25 @@
+import { useSelector } from "react-redux";
+import { selectCurrentToken } from "../../features/auth/authSlice";
+import { useRefreshMutation } from "../../features/auth/authApi";
+import { useEffect } from "react";
+import BeatLoader from "react-spinners/BeatLoader";
 
 
 const Home = () => {
+    const token= useSelector(selectCurrentToken);
+  console.log(token)
+  const [refresh,{isLoading,isError,error}]=useRefreshMutation()
+  useEffect(()=>{
+    const verifyRefreshToken=async()=>{
+      await refresh() 
+    }
+    verifyRefreshToken();
+  },[])
+  if(isLoading,isError,error){
+    return  <div className="h-80 flex items-center justify-center" >
+    <BeatLoader color="#2563EB" />
+</div>
+  }
     return (
        <section className="bg-gray-900">
          <section className="relative">

@@ -33,7 +33,7 @@ const EditProfile = () => {
   
   const submit=(data)=>{
     console.log(data);
-    updateProfile({
+    const res = updateProfile({
       ...userInfo,
       name:data.name,
       aboutMe:data.aboutMe,
@@ -52,6 +52,8 @@ const EditProfile = () => {
         data.hobbies4,
       ]
     })
+
+    console.log(res)
   }
   return (
     <div>
