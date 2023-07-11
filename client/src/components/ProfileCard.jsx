@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
-const ProfileCard = () => {
+const ProfileCard = ({userInfo}) => {
+  console.log(userInfo)
   return (
     <div className="max-w-3xl md:m-2 w-full border-2 m-3 px-8 py-4">
       <div className="mb-6">

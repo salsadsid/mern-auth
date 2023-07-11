@@ -22,6 +22,9 @@ const userSchema = mongoose.Schema(
       enum: ["user", "moderator", "admin"],
       default: "user",
     },
+    aboutMe:{
+      type:String
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -37,6 +40,12 @@ const userSchema = mongoose.Schema(
         message: "Password {VALUE} is not strong enough.",
       },
     },
+    skills:[{
+      type:String
+    }],
+    Hobbies:[{
+      type:String
+    }]
   },
   { timestamps: true }
 );

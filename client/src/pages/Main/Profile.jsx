@@ -5,11 +5,11 @@ import useAuth from "../../hooks/useAuth";
 
 const Profile = () => {
     const { email, role } = useAuth();
-    const {data,isLoading}=useUserDetailsQuery(email);
-    console.log(data)
+    const {data:userInfo,isLoading}=useUserDetailsQuery(email);
+    console.log(userInfo)
     return (
         <section className="w-full md:flex-row flex flex-col items-center justify-center">
-            <ProfileCard/>
+            <ProfileCard userInfo={userInfo}/>
 
         </section>
     );
