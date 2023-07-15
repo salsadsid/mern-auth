@@ -9,13 +9,18 @@ import BeatLoader from "react-spinners/BeatLoader";
 const Main = () => {
   const token = useSelector(selectCurrentToken);
   console.log(token);
-  const [refresh, { isLoading, isError, error }] = useRefreshMutation();
+  const [refresh, { isLoading, isError, error,isSuccess }] = useRefreshMutation();
   useEffect(() => {
     const verifyRefreshToken = async () => {
       await refresh();
     };
     verifyRefreshToken();
   }, []);
+  // console.log(isLoading,"isLoading")
+  // console.log(isError,"isError")
+  // console.log(error,"error")
+  // console.log(isSuccess,"isSuccess")
+
   let content;
   if (isLoading) {
     content = (
@@ -27,7 +32,24 @@ const Main = () => {
       </>
     );
   }
-  if (isError) {
+  if(isError){
+    <>
+        <Nav></Nav>
+        <div className="h-80 flex items-center justify-center">
+          <BeatLoader color="#2563EB" />
+        </div>
+      </>
+  }
+  if(isSuccess){
+    content = (
+      <>
+        <Nav></Nav>
+
+        <Outlet />
+      </>
+    );
+  }
+  if (error) {
     content = (
       <>
         <Nav></Nav>

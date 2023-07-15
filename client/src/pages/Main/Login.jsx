@@ -3,16 +3,36 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../features/auth/authApi";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
+import BeatLoader from "react-spinners/BeatLoader";
+import { useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm();
   const dispatch=useDispatch()
   const navigate =useNavigate()
-  const [loginUser,{isLoading}]=useLoginMutation()
+  const [loginUser,{isLoading,isError,error,isSuccess}]=useLoginMutation()
+   console.log(isLoading,"isLoading")
+  console.log(isError,"isError")
+  console.log(error,"error")
+  console.log(isSuccess,"isSuccess")
+  useEffect(()=>{
+    if(isLoading){
+      toast.loading("Logging into your account",{id:"user"})
+    }
+    if (isSuccess) {
+      toast.success("Login Successful", { id: "user" })
+      reset()
+    }
+    if (!isLoading && isError) {
+      toast.error(error?.data.message, { id: "user" })
+    }
+  },[isError,isLoading,isSuccess,error,reset])
   const handleLogin =async (data) => {
     const {email,password}= data
     try {
@@ -22,7 +42,7 @@ const Login = () => {
       dispatch(setCredentials({ accessToken }))
       // dispatch(setCredentials({ ...res }));
       navigate('/');
-      console.log(accessToken)
+      // console.log(accessToken)
     } catch (err) {
       // toast.error(err?.data?.message || err.error);
       console.log(err)

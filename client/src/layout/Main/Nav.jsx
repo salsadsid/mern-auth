@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import img from "../../assets/logo.png";
 import useAuth from "../../hooks/useAuth";
 import { useSendLogOutMutation } from "../../features/auth/authApi";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const Nav = () => {
   const [state, setState] = useState(false);
@@ -18,9 +19,15 @@ const Nav = () => {
         const res= await handleLogOut()
         console.log(res)
     } 
+    
     useEffect(() => {
         if (isSuccess) navigate('/')
-    }, [isSuccess, navigate])
+        if(isLoading){
+          return <div className="h-80 flex items-center justify-center">
+              <BeatLoader color="#2563EB" />
+            </div>
+        }
+    }, [isSuccess, navigate,isLoading])
   const { email, role } = useAuth();
   // Replace javascript:void(0) paths with your paths
   const navigation = [
