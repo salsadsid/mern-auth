@@ -1,10 +1,9 @@
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../features/auth/authApi";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../features/auth/authSlice";
-import BeatLoader from "react-spinners/BeatLoader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const Login = () => {
@@ -12,16 +11,22 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    setFocus
   } = useForm();
   const dispatch=useDispatch()
   const navigate =useNavigate()
+  const location=useLocation()
   const [loginUser,{isLoading,isError,error,isSuccess}]=useLoginMutation()
-   console.log(isLoading,"isLoading")
-  console.log(isError,"isError")
-  console.log(error,"error")
-  console.log(isSuccess,"isSuccess")
+  const [eye,setEye]=useState({field:"",value:""})
+  const from= location.state?.from?.pathname || "/"
+  console.log(from);
+  //  console.log(isLoading,"isLoading")
+  // console.log(isError,"isError")
+  // console.log(error,"error")
+  // console.log(isSuccess,"isSuccess")
   useEffect(()=>{
+    setEye({...eye,field:"",value:""});
     if(isLoading){
       toast.loading("Logging into your account",{id:"user"})
     }
@@ -32,8 +37,20 @@ const Login = () => {
     if (!isLoading && isError) {
       toast.error(error?.data.message, { id: "user" })
     }
+    if(error){
+      if(error?.data.message.includes("Password")){
+        setFocus("password")
+        setEye({...eye,field:"password",value:error?.data.message})
+      }
+      if(error?.data.message.includes("No User")){
+        setFocus("email")
+        setEye({...eye,field:"email",value:error?.data.message})
+      }
+    }
   },[isError,isLoading,isSuccess,error,reset])
+  
   const handleLogin =async (data) => {
+   
     const {email,password}= data
     try {
       const {data} = await loginUser({email,password})
@@ -41,7 +58,9 @@ const Login = () => {
       const {accessToken}=data
       dispatch(setCredentials({ accessToken }))
       // dispatch(setCredentials({ ...res }));
-      navigate('/');
+     if(data){
+      navigate(from,{replace:true})
+     }
       // console.log(accessToken)
     } catch (err) {
       // toast.error(err?.data?.message || err.error);
@@ -72,6 +91,7 @@ const Login = () => {
               <label className="font-medium">Email</label>
               <input
                 type="email"
+                onKeyUp={()=>setEye({...eye,field:"",value:""})}
                 {...register("email", {
                   required: "Email is required",
                   validate: {
@@ -80,14 +100,18 @@ const Login = () => {
                       "Email address must be a valid address",
                   },
                 })}
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                className={`w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border ${eye.field=== "email" || errors.email?.message ? "focus:border-red-500": "focus:border-indigo-600"} shadow-sm rounded-l`}
               />
               {errors.email?.message && <small className="text-orange-700">{errors.email.message}</small>}
+              { eye.field=== "email" && (
+                <small className="text-orange-700">{eye.value}</small>
+              )}
             </div>
             <div>
               <label className="font-medium">Password</label>
               <input
                 type="password"
+                onKeyUp={()=>setEye({...eye,field:"",value:""})}
                 {...register("password",{
                   required:"Password is required",
                   validate:{
@@ -96,9 +120,12 @@ const Login = () => {
                     "Password must have at least 1 letter and number."
                   }
                 })}
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                className={`w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border ${eye.field=== "password"|| errors.password?.message ? "focus:border-red-500": "focus:border-indigo-600"} shadow-sm rounded-lg`}
               />
               {errors.password?.message && <small className="text-orange-700">{errors.password.message}</small>}
+              { eye.field=== "password" && (
+                <small className="text-orange-700">{eye.value}</small>
+              )}
             </div>
           <button className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
             Sign in

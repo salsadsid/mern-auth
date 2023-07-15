@@ -62,13 +62,14 @@ const SignUp = () => {
               <input
                 type="text"
                 name="username"
+                onKeyUp={()=>setEye({...eye,field:"",value:""})}
                 {...register("username", {
                   required: true,
                   validate: {
                     minLength: (v) => v.length > 5,
                   },
                 })}
-                className={`w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border ${eye.field=== "username" ? "focus:border-red-500": "focus:border-indigo-600"} shadow-sm rounded-lg`}
+                className={`w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border ${eye.field=== "username" ||errors.username?.type === "required" || errors.username?.type === "minLength"? "focus:border-red-500": "focus:border-indigo-600"} shadow-sm rounded-lg`}
               />
               {errors.username?.type === "required" && (
                 <small className="text-orange-700">Username is required</small>
@@ -88,6 +89,7 @@ const SignUp = () => {
               <label className="font-medium">Email</label>
               <input
                 type="email"
+                onKeyUp={()=>setEye({...eye,field:"",value:""})}
                 {...register("email", {
                   required: "Email is required",
                   validate: {
@@ -96,7 +98,7 @@ const SignUp = () => {
                       "Email address must be a valid address",
                   },
                 })}
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+                className={`w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border ${eye.field=== "email" ||errors.email?.message? "focus:border-red-500": "focus:border-indigo-600"} shadow-sm rounded-lg`}
               />
               {errors.email?.message && (
                 <small className="text-orange-700">

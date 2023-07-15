@@ -29,7 +29,7 @@ const Nav = () => {
         }
     }, [isSuccess, navigate,isLoading])
   const { email, role } = useAuth();
-  // Replace javascript:void(0) paths with your paths
+  
   const navigation = [
     { title: "Features", path: "javascript:void(0)" },
     { title: "Integrations", path: "javascript:void(0)" },
