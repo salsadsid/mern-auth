@@ -1,13 +1,17 @@
 import { Link } from "react-router-dom";
 
 const ProfileCard = ({userInfo}) => {
-  const {name,role,aboutMe,skills,hobbies} =userInfo
+  const {name,role,aboutMe,skills,hobbies,img} =userInfo
+
+  const base64String = btoa(
+    String.fromCharCode(...new Uint8Array(img.data.data))
+  );
   return (
     <div className="max-w-3xl md:m-2 w-full border-2 m-3 px-8 py-4">
       <div className="mb-6">
         <img
-          className="w-24 h-24 mb-3 rounded-full shadow-lg"
-          src="/docs/images/people/profile-picture-3.jpg"
+          className="w-24 mb-3 rounded-full shadow-lg"
+          src={`data:image/png;base64,${base64String}`}
           alt="Bonnie image"
         />
         <h5 className="mb-1 text-2xl font-bold text-gray-900 dark:text-white">

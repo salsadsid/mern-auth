@@ -56,14 +56,16 @@ const authApi = apiSlice.injectEndpoints({
       query:(email)=>({
         url:`user/${email}`,
         method:'GET'
-      })
+      }),
+      providesTags:["User"]
     }),
     updateUserProfile:builder.mutation({
       query:(data)=>({
         url:`user/update`,
         method:"PATCH",
         body:data
-      })
+      }),
+      invalidatesTags:["User"]
     })
   })
 });

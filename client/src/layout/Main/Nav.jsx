@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import img from "../../assets/logo.png";
 import useAuth from "../../hooks/useAuth";
 import { useSendLogOutMutation } from "../../features/auth/authApi";
@@ -8,7 +8,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 const Nav = () => {
   const [state, setState] = useState(false);
   const navigate = useNavigate()
-
+  const location = useLocation()
     const [handleLogOut, {
         isLoading,
         isSuccess,
@@ -31,8 +31,7 @@ const Nav = () => {
   const { email, role } = useAuth();
   
   const navigation = [
-    { title: "Features", path: "javascript:void(0)" },
-    { title: "Integrations", path: "javascript:void(0)" },
+    
     { title: "Customers", path: "javascript:void(0)" },
     { title: "My Profile", path: "/profile" },
   ];
@@ -45,7 +44,26 @@ const Nav = () => {
   }, []);
 
   const Brand = () => (
-    <div className="flex items-center justify-between py-5 md:block">
+    <div className="flex items-center justify-between py-5 lg:block">
+      {location.pathname?.includes("dashboard") && <label
+            htmlFor="my-drawer-2"
+            className="menu-btn hover:cursor-pointer text-gray-400 hover:text-gray-300 drawer-button mr-8 lg:hidden"
+          >
+             <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          </label>}
       <Link to="/">
         <img src={img} width={120} height={40} alt="MERN Auth logo" />
       </Link>
@@ -89,8 +107,9 @@ const Nav = () => {
   );
 
   return (
-    <header className=" bg-gray-900 sticky top-0 z-50">
+    <header className=" bg-gray-900 sticky top-0 z-50 transition-all duration-1000">
       <div className={`md:hidden ${state ? "mx-2 pb-5" : "hidden"}`}>
+      
         <Brand />
       </div>
       <nav
@@ -101,6 +120,7 @@ const Nav = () => {
         }`}
       >
         <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8">
+        
           <Brand />
           <div
             className={`flex-1 items-center mt-8 md:mt-0 md:flex ${
@@ -108,7 +128,7 @@ const Nav = () => {
             } `}
           >
             <ul className="flex-1 justify-end items-center space-y-6 md:flex md:space-x-6 md:space-y-0">
-              {navigation.map((item, idx) => {
+              {/* {navigation.map((item, idx) => {
                 return (
                   <li key={idx} className="text-gray-300 hover:text-gray-400">
                     <Link href={item.path} className="block">
@@ -116,13 +136,14 @@ const Nav = () => {
                     </Link>
                   </li>
                 );
-              })}
+              })} */}
+              <li className="text-gray-300 hover:text-gray-400"> <Link to="/dashboard">Dashboard</Link></li>
               {email ? (
                   <>
                 
                 <li>
                     <Link
-                      to="profile"
+                      to="/profile"
                       className="flex items-center justify-center gap-x-1 py-2 px-4 text-white font-medium bg-sky-500 hover:bg-sky-400 active:bg-sky-600 duration-150 rounded-full md:inline-flex"
                     >
                       My Profile

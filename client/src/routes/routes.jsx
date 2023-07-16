@@ -6,6 +6,7 @@ import SignUp from "../pages/Main/SignUp";
 import Profile from "../pages/Main/Profile";
 import EditProfile from "../pages/Main/EditProfile";
 import RequireAuth from "../utils/RequireAuth";
+import DashboardLayout from "../layout/Dashboard/DashboadLayout";
 
 
 const routes = createBrowserRouter([
@@ -34,6 +35,16 @@ const routes = createBrowserRouter([
                 element:<EditProfile/>
             },
 
+        ]
+    },
+    {
+        path:"/dashboard",
+        element:<DashboardLayout></DashboardLayout> ,
+        children:[
+            {
+                path:"/dashboard",
+                element:<button className="btn">dasd</button>
+            }
         ]
     }
 ])
