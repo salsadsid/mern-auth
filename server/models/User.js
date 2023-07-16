@@ -21,6 +21,14 @@ const userSchema = mongoose.Schema(
       unique: [true, "User already exists."],
       required: [true, "Email is required"],
     },
+    img: {
+      data: Buffer,
+      contentType: String,
+      filename: String,
+      path: String,
+      size: String,
+      destination: String,
+    },
     role: {
       type: String,
       enum: ["user", "moderator", "admin"],

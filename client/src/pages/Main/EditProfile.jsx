@@ -1,98 +1,167 @@
 import { useForm } from "react-hook-form";
-import { useUpdateUserProfileMutation, useUserDetailsQuery } from "../../features/auth/authApi";
+import {
+  useUpdateUserProfileMutation,
+  useUserDetailsQuery,
+} from "../../features/auth/authApi";
 import useAuth from "../../hooks/useAuth";
 import BeatLoader from "react-spinners/BeatLoader";
 import { useEffect, useMemo } from "react";
 
 const EditProfile = () => {
   const { email, role } = useAuth();
-  const {data:userInfo,isLoading,isSuccess,}=useUserDetailsQuery(email,{refetchOnMountOrArgChange:true});
-  const { register, handleSubmit, reset } = useForm({defaultValues:useMemo(()=>{
-    return {
-      email:userInfo?.email,
-      username:userInfo?.username,
-      role:userInfo?.role,
-      name:userInfo?.name,
-      aboutMe:userInfo?.aboutMe
-    }
-  },[userInfo])});
-  const [updateProfile,{isLoading:isLoading2,isSuccess:isSuccess2}]=useUpdateUserProfileMutation();
-  useEffect(()=>{
+  const {
+    data: userInfo,
+    isLoading,
+    isSuccess,
+  } = useUserDetailsQuery(email, { refetchOnMountOrArgChange: true });
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: useMemo(() => {
+      return {
+        email: userInfo?.email,
+        username: userInfo?.username,
+        role: userInfo?.role,
+        name: userInfo?.name,
+        aboutMe: userInfo?.aboutMe,
+      };
+    }, [userInfo]),
+  });
+  const [updateProfile, { isLoading: isLoading2, isSuccess: isSuccess2 }] =
+    useUpdateUserProfileMutation();
+  useEffect(() => {
     reset({
-      email:userInfo?.email,
-    username:userInfo?.username,
-    role:userInfo?.role,
-    name:userInfo?.name,
-    aboutMe:userInfo?.aboutMe
-    })
-  },[isSuccess])
-  console.log(userInfo)
-  if(isLoading || isLoading2){
-    return <BeatLoader color="#36d7b7" />
+      email: userInfo?.email,
+      username: userInfo?.username,
+      role: userInfo?.role,
+      name: userInfo?.name,
+      aboutMe: userInfo?.aboutMe,
+    });
+  }, [isSuccess]);
+  // console.log(userInfo);
+  if (isLoading || isLoading2) {
+    return <BeatLoader color="#36d7b7" />;
   }
-  
-  const submit=(data)=>{
+
+  const submit = (data) => {
+
     console.log(data);
-    const res = updateProfile({
+    const formData = new FormData();
+    const file = data.file[0];
+    formData.append("image", data.file[0]);
+    const updatedData={
       ...userInfo,
-      name:data.name,
-      aboutMe:data.aboutMe,
-      skills:[
+      name: data.name,
+      aboutMe: data.aboutMe,
+      img:file,
+      skills: [
         ...userInfo.skills,
         data.skill1,
         data.skill2,
         data.skill3,
         data.skill4,
       ],
-      hobbies:[
+      hobbies: [
         ...userInfo.hobbies,
         data.hobbies1,
         data.hobbies2,
         data.hobbies3,
         data.hobbies4,
-      ]
-    })
+      ],
+    }
+    formData.append("userData",JSON.stringify(updatedData));
+    const res = updateProfile(formData);
 
-    console.log(res)
-  }
+    console.log(res);
+  };
   return (
     <div>
       <h3 className="text-center my-6 text-2xl font-medium text-gray-900 dark:text-white">
         Update Personal Profile
       </h3>
       <div className="flex justify-center items-center h-full ">
-        <form className="shadow-lg p-10 rounded-md flex flex-wrap gap-3 max-w-3xl md:justify-between justify-center bg-white" onSubmit={handleSubmit(submit)}>
+        <form
+          className="shadow-lg p-10 rounded-md flex flex-wrap gap-3 max-w-3xl md:justify-between justify-center bg-white"
+          onSubmit={handleSubmit(submit)}
+        >
           <div className="flex flex-col w-full max-w-xs">
             <label className="mb-2 font-medium" htmlFor="name">
               Name
             </label>
-            <input type="text" name="name" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" {...register("name")} />
+            <input
+              type="text"
+              name="name"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              {...register("name")}
+            />
           </div>
           <div className="flex flex-col w-full max-w-xs">
             <label className="mb-2 font-medium" htmlFor="username">
               Username
             </label>
-            <input readOnly disabled type="text" name="username" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg disabled:bg-gray-300" {...register("username")} />
+            <input
+              readOnly
+              disabled
+              type="text"
+              name="username"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg disabled:bg-gray-300"
+              {...register("username")}
+            />
           </div>
           <div className="flex flex-col w-full max-w-xs">
             <label className="mb-2 font-medium" htmlFor="email">
               Email
             </label>
-            <input readOnly disabled type="text" name="email" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg disabled:bg-gray-300" {...register("email")} />
+            <input
+              readOnly
+              disabled
+              type="text"
+              name="email"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg disabled:bg-gray-300"
+              {...register("email")}
+            />
           </div>
           <div className="flex flex-col w-full max-w-xs">
             <label className="mb-2 font-medium" htmlFor="role">
               Role
             </label>
-            <input readOnly disabled type="text" name="role" className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg disabled:bg-gray-300" {...register("role")} />
+            <input
+              readOnly
+              disabled
+              type="text"
+              name="role"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg disabled:bg-gray-300"
+              {...register("role")}
+            />
+          </div>
+          <div className="flex flex-col w-full max-w-xs my-4">
+          <label className="mb-2 font-medium" htmlFor="aboutMe">
+              Profile Picture
+            </label>
+              <input
+                type="file"
+                {...register("file",{
+                  required: "Profile picture is required",})}
+                className="text-sm text-grey-500
+            file:mr-5 file:py-3 file:px-10
+            file:rounded-full file:border-0
+            file:text-md file:font-semibold  file:text-white
+            file:bg-gradient-to-r file:from-blue-600 file:to-amber-600
+            hover:file:cursor-pointer hover:file:opacity-80
+          "
+              />
+            
           </div>
 
-          
           <div className="flex flex-col w-full max-w-xs md:max-w-lg">
             <label className="mb-2 font-medium" htmlFor="aboutMe">
               About Me
             </label>
-            <textarea type="text" className=" w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg" name="price" id="price" {...register("aboutMe")} />
+            <textarea
+              type="text"
+              className=" w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              name="price"
+              id="price"
+              {...register("aboutMe")}
+            />
           </div>
 
           <p className="my-2 w-full max-w-xs md:max-w-md text-lg font-bold text-gray-900 dark:text-white">
@@ -104,7 +173,7 @@ const EditProfile = () => {
               Skill Set #1
             </label>
             <input
-            className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="skill1"
               id="skill1"
@@ -116,7 +185,7 @@ const EditProfile = () => {
               Skill Set #2
             </label>
             <input
-             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="skill2"
               id="skill2"
@@ -128,7 +197,7 @@ const EditProfile = () => {
               Skill Set #3
             </label>
             <input
-             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="skill3"
               id="skill3"
@@ -140,7 +209,7 @@ const EditProfile = () => {
               Skill Set #4
             </label>
             <input
-             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="skill4"
               id="skill4"
@@ -157,7 +226,7 @@ const EditProfile = () => {
               Hobbies #1
             </label>
             <input
-             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="hobbies1"
               id="hobbies1"
@@ -169,7 +238,7 @@ const EditProfile = () => {
               Hoobies #2
             </label>
             <input
-             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="hobbies2"
               id="hobbies2"
@@ -181,7 +250,7 @@ const EditProfile = () => {
               Hobbies #3
             </label>
             <input
-             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="hobbies3"
               id="hobbies3"
@@ -193,7 +262,7 @@ const EditProfile = () => {
               Hobbies #4
             </label>
             <input
-             className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               type="text"
               name="hobbies4"
               id="hobbies4"

@@ -5,6 +5,9 @@ const {
 } = require("../services/user.services");
 const { generateToken } = require("../utils/generateToken");
 const jwt = require("jsonwebtoken");
+const fs = require('fs');
+const path = require('path');
+
 
 exports.signup = async (req, res, next) => {
   try {
@@ -89,11 +92,11 @@ exports.login = async (req, res, next) => {
 exports.persistAuth = async (req, res, next) => {
   try {
     const cookie = req.cookies;
-    console.log(cookie);
+    // console.log(cookie);
     if (!cookie?.jwt) return res.status(401).json({ message: "Unauthorized" });
 
     const refreshToken = cookie.jwt;
-    console.log(refreshToken);
+    // console.log(refreshToken);
     jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
@@ -133,12 +136,29 @@ exports.userDetails = async (req, res, next) => {
 
 exports.updateProfile = async (req, res, next) => {
   try {
-    console.log(req.body);
-    const skills=req.body?.skills.filter(skill=>skill!="")
-    req.body.skills=skills;
-    const hobbies=req.body?.hobbies.filter(hobbie=>hobbie!="")
-    req.body.hobbies=hobbies;
-    const result = await findAndUpdateUserProfile(req.body._id, req.body);
+    const { userData } = req.body;
+    const parsedUserData = JSON.parse(userData);
+    console.log(parsedUserData);
+    const skills = parsedUserData?.skills.filter((skill) => skill != "");
+    parsedUserData.skills = skills;
+    const hobbies = parsedUserData?.hobbies.filter((hob) => hob != "");
+    parsedUserData.hobbies = hobbies;
+    const updateDoc = {
+      ...parsedUserData,
+      img: {
+        ...parsedUserData.img,
+        data: fs.readFileSync(
+          path.resolve(__dirname ,`../uploads/${req.file.filename}`)
+        ),
+        contentType: req.file?.mimetype,
+        filename: req.file?.filename,
+        path: req.file?.path,
+        size: req.file?.size,
+        destination: req.file?.destination,
+      },
+    };
+
+    const result = await findAndUpdateUserProfile(parsedUserData._id, updateDoc);
     if (result) {
       res.status(200).json({
         status: "success",
@@ -146,6 +166,7 @@ exports.updateProfile = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: "Fail",
       error,

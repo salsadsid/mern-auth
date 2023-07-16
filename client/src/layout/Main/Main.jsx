@@ -8,7 +8,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 
 const Main = () => {
   const token = useSelector(selectCurrentToken);
-  console.log(token);
+  // console.log(token);
   const [refresh, { isLoading, isError, error,isSuccess }] = useRefreshMutation();
   useEffect(() => {
     const verifyRefreshToken = async () => {
