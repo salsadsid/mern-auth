@@ -1,4 +1,4 @@
-const { allFriendsService } = require("../services/friends.services");
+const { allFriendsService, addFriendRequestService } = require("../services/friends.services");
 
 exports.allFriends=async(req,res,next)=>{
     try {
@@ -15,4 +15,16 @@ exports.allFriends=async(req,res,next)=>{
           error,
         });
       }
+}
+
+
+
+exports.addFriendRequest=async(req,res,next)=>{
+  try {
+    console.log(req.body);
+    const result= await addFriendRequestService(req.body.userId,{email:req.body.email,name:req.body.name,id:req.body.id});
+    console.log(result,"sas");
+  } catch (error) {
+    
+  }
 }

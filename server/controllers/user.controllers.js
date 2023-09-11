@@ -2,6 +2,7 @@ const {
   signupService,
   findUserByEmail,
   findAndUpdateUserProfile,
+  createFriendModel,
 } = require("../services/user.services");
 const { generateToken } = require("../utils/generateToken");
 const jwt = require("jsonwebtoken");
@@ -78,7 +79,8 @@ exports.login = async (req, res, next) => {
       sameSite: "None", //cross-site cookie
       maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
     });
-
+    const resu= await createFriendModel(user.name,user.email,user._id);
+    console.log(resu);
     // Send accessToken containing username and roles
     res.json({ accessToken });
   } catch (error) {

@@ -1,3 +1,4 @@
+const Friend = require("../models/Friend");
 const User = require("../models/user");
 
 
@@ -18,4 +19,8 @@ exports.findAndUpdateUserProfile=async(userId,data)=>{
     const result = await User.updateOne({ _id: userId }, { $set: data }, { runValidators: true })
 
     return result
+}
+
+exports.createFriendModel=async(name,email,id)=>{
+    return await Friend.create({user:{name:name,email:email,id:id}})
 }

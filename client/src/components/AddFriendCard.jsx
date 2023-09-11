@@ -1,7 +1,24 @@
 import React from 'react';
+import { useAddFriendRequestMutation } from '../features/friend/friendApi';
+import useAuth from '../hooks/useAuth';
+import { useUserDetailsQuery } from '../features/auth/authApi';
 
 const AddFriendCard = ({friend}) => {
-    console.log(friend);
+    // console.log(friend);
+    const { email, role } = useAuth();
+    const {data:userInfo,isLoading}=useUserDetailsQuery(email)
+    const [handleRequest]=useAddFriendRequestMutation()
+    const handleFriendRequest=(data)=>{
+      const friend={
+        userId:userInfo._id,
+        name:data.name,
+        email:data.email,
+        id:data._id,
+      }
+      console.log(friend);
+      const res=  handleRequest(friend);
+      console.log(res);
+    }
     const base64String = btoa(
         String.fromCharCode(...new Uint8Array(friend?.img?.data?.data))
       );
@@ -15,7 +32,7 @@ const AddFriendCard = ({friend}) => {
         />
             <h4>{friend?.name}</h4>
             </div>
-           <button className='btn btn-neutral normal-case'>Add Friend</button>
+           <button className='btn btn-neutral normal-case'onClick={()=>handleFriendRequest(friend)}>Add Friend</button>
 
        </div>
     );
