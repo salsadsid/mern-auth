@@ -47,7 +47,7 @@ const Nav = () => {
     <div className="flex items-center justify-between py-5 lg:block">
       {location.pathname?.includes("dashboard") && <label
             htmlFor="my-drawer-2"
-            className="menu-btn hover:cursor-pointer text-gray-400 hover:text-gray-300 drawer-button mr-8 lg:hidden"
+            className="menu-btn hover:cursor-pointer text-gray-400 hover:text-gray-300 drawer-button sm:mr-8  lg:hidden"
           >
              <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +137,11 @@ const Nav = () => {
                   </li>
                 );
               })} */}
+              {email && <>
+                <li className="text-gray-300 hover:text-gray-400"> <Link to="/add-friend">Add Friends</Link></li>
               <li className="text-gray-300 hover:text-gray-400"> <Link to="/dashboard">Dashboard</Link></li>
+             
+              </>}
               {email ? (
                   <>
                 

@@ -76,7 +76,7 @@ const SignUp = () => {
               )}
 
               { eye.field=== "username" && (
-                <small className="text-orange-700">Username already exists! Try : {eye.value + Math.floor(Math.random()*1000) + ", "+ eye.value + Math.floor(Math.random()*1000)}</small>
+                <small className="text-orange-700">Username already exists! Try : <span className="font-semibold ">{eye.value + Math.floor(Math.random()*1000) + ", "+ eye.value + Math.floor(Math.random()*1000)}</span></small>
               )}
 
               {errors.username?.type === "minLength" && (

@@ -7,6 +7,8 @@ import Profile from "../pages/Main/Profile";
 import EditProfile from "../pages/Main/EditProfile";
 import RequireAuth from "../utils/RequireAuth";
 import DashboardLayout from "../layout/Dashboard/DashboadLayout";
+import PersistLogin from "../pages/Main/PersistLogin";
+import AddFriends from "../pages/Main/AddFriends";
 
 
 const routes = createBrowserRouter([
@@ -34,12 +36,17 @@ const routes = createBrowserRouter([
                 path:"update",
                 element:<EditProfile/>
             },
-
+            {
+                path:"add-friend",
+                element:<PersistLogin>
+                    <AddFriends></AddFriends>
+                </PersistLogin>
+            }
         ]
     },
     {
         path:"/dashboard",
-        element:<DashboardLayout></DashboardLayout> ,
+        element:<PersistLogin><DashboardLayout></DashboardLayout></PersistLogin> ,
         children:[
             {
                 path:"/dashboard",
