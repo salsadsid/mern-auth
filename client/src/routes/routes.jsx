@@ -30,7 +30,7 @@ const routes = createBrowserRouter([
             },
             {
                 path:"profile",
-                element:<RequireAuth><Profile/></RequireAuth>
+                element:<PersistLogin><Profile/></PersistLogin>
             },
             {
                 path:"update",

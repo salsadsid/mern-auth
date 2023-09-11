@@ -1,11 +1,7 @@
-import { Outlet, Link } from "react-router-dom"
-import { useEffect, useRef, useState } from 'react'
+import {  Link } from "react-router-dom"
 
 
-import { useSelector } from 'react-redux'
-import { selectCurrentToken } from "../../features/auth/authSlice"
 import PulseLoader from 'react-spinners/PulseLoader'
-import { useRefreshMutation } from "../../features/auth/authApi"
 import usePersist from "../../hooks/usePersist"
 
 const PersistLogin = ({children}) => {

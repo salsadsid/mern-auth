@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../../features/auth/authApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "../../features/auth/authSlice";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
-  
+  const token = useSelector(selectCurrentToken)
   const {
     register,
     handleSubmit,
@@ -16,25 +17,44 @@ const SignUp = () => {
     reset,
   } = useForm();
   const [eye,setEye]=useState({field:"",value:""})
-
+  const navigate =useNavigate()
   const [registerUser, { isLoading }] = useRegisterMutation();
  
+
+  useEffect(()=>{
+    if(token){
+      toast.success("Your are already logged in",{id:"user-sign"})
+      navigate("/");
+    }
+    if(isLoading){
+      toast.loading("Registering your account",{id:"user-sign"})
+    }
+  },[navigate,token])
   const handleSignUp = async (data) => {
     setEye({...eye,field:"",value:""});
     const res = await registerUser({ ...data, confirmPassword: undefined });
     console.log(res)
-    if(res?.error){
-      if(res.error.data.error.keyValue.username){
-        setFocus("username");
-        setEye({...eye,field:"username",value:res.error.data.error.keyValue.username})
+    try {
+      if(res?.error){
+        if(res.error.data.error.keyValue.username){
+          setFocus("username");
+          setEye({...eye,field:"username",value:res.error.data.error.keyValue.username})
+        }
+        if(res.error.data.error.keyValue.email){
+          setFocus("email");
+          setEye({...eye,field:"email",value:res.error.data.error.keyValue.email})
+        }
+        
       }
-      if(res.error.data.error.keyValue.email){
-        setFocus("email");
-        setEye({...eye,field:"email",value:res.error.data.error.keyValue.email})
+      if(res.data.status=="Success"){
+        toast.loading("login to continue",{id:"user-sign"});
+        toast.success(res.data.message,{id:"user-sign"});
+        navigate("/login");
       }
-      
+    } catch (error) {
+      toast.error(error,{id:"user-sign"});
     }
-    // reset();
+    
   };
   return (
     <main className="w-full flex flex-col items-center justify-center bg-gray-50 sm:px-4">

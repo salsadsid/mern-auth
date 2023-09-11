@@ -51,7 +51,7 @@ const EditProfile = () => {
       ...userInfo,
       name: data.name,
       aboutMe: data.aboutMe,
-      img:file,
+      img:file || undefined,
       skills: [
         ...userInfo.skills,
         data.skill1,

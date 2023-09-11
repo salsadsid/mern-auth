@@ -1,12 +1,14 @@
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../features/auth/authApi";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "../../features/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentToken, setCredentials } from "../../features/auth/authSlice";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const Login = () => {
+
+ const token = useSelector(selectCurrentToken)
   const {
     register,
     handleSubmit,
@@ -19,14 +21,20 @@ const Login = () => {
   const location=useLocation()
   const [loginUser,{isLoading,isError,error,isSuccess}]=useLoginMutation()
   const [eye,setEye]=useState({field:"",value:""})
-  const from= location.state?.from?.pathname || "/"
-  console.log(from);
+  const from= location.state?.from?.pathname || "/";
+  
+  // console.log(from);
   //  console.log(isLoading,"isLoading")
   // console.log(isError,"isError")
   // console.log(error,"error")
   // console.log(isSuccess,"isSuccess")
   useEffect(()=>{
+
     setEye({...eye,field:"",value:""});
+    if(token){
+      toast.success("Your are already logged in",{id:"user"})
+      navigate("/")
+    }
     if(isLoading){
       toast.loading("Logging into your account",{id:"user"})
     }
@@ -47,7 +55,7 @@ const Login = () => {
         setEye({...eye,field:"email",value:error?.data.message})
       }
     }
-  },[isError,isLoading,isSuccess,error,reset])
+  },[isError,isLoading,isSuccess,error,reset,token,setFocus,eye,navigate])
   
   const handleLogin =async (data) => {
    
