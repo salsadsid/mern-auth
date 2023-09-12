@@ -138,6 +138,7 @@ const Nav = () => {
                 );
               })} */}
               {email && <>
+                <li className="text-gray-300 hover:text-gray-400"> <Link to="/all-request">Friend Requests</Link></li>
                 <li className="text-gray-300 hover:text-gray-400"> <Link to="/add-friend">Add Friends</Link></li>
               <li className="text-gray-300 hover:text-gray-400"> <Link to="/dashboard">Dashboard</Link></li>
              

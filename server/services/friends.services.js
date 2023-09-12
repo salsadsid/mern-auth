@@ -8,3 +8,8 @@ exports.allFriendsService=async()=>{
 exports.addFriendRequestService=async(id,request)=>{
     return await Friend.updateOne({'user.id':id},{$push:{'requests':{email:request.email,id:request.id,name:request.name}}})
 }
+
+
+exports.allFriendRequestService=async(email)=>{
+    return await Friend.findOne({'user.email':email}).populate('requests.id').select('requests.id')
+}

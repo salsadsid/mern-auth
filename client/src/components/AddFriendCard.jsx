@@ -9,14 +9,14 @@ const AddFriendCard = ({friend}) => {
     const {data:userInfo,isLoading}=useUserDetailsQuery(email)
     const [handleRequest]=useAddFriendRequestMutation()
     const handleFriendRequest=(data)=>{
-      const friend={
-        userId:userInfo._id,
-        name:data.name,
-        email:data.email,
-        id:data._id,
+      const friendData={
+        userId:friend._id,
+        name:userInfo.name,
+        email:userInfo.email,
+        id:userInfo._id,
       }
-      console.log(friend);
-      const res=  handleRequest(friend);
+      console.log(friendData);
+      const res=  handleRequest(friendData);
       console.log(res);
     }
     const base64String = btoa(

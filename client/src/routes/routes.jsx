@@ -9,6 +9,7 @@ import RequireAuth from "../utils/RequireAuth";
 import DashboardLayout from "../layout/Dashboard/DashboadLayout";
 import PersistLogin from "../pages/Main/PersistLogin";
 import AddFriends from "../pages/Main/AddFriends";
+import FriendRequests from "../pages/Main/FriendRequests";
 
 
 const routes = createBrowserRouter([
@@ -40,6 +41,12 @@ const routes = createBrowserRouter([
                 path:"add-friend",
                 element:<PersistLogin>
                     <AddFriends></AddFriends>
+                </PersistLogin>
+            },
+            {
+                path:"all-request",
+                element:<PersistLogin>
+                    <FriendRequests></FriendRequests>
                 </PersistLogin>
             }
         ]

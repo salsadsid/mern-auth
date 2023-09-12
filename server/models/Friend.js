@@ -10,6 +10,7 @@ const friendSchema = mongoose.Schema(
       id: {
         type: ObjectId,
         ref: "User",
+        // unique:true
       },
     },
     friends: [

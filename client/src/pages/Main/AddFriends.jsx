@@ -4,6 +4,7 @@ import { useAllFriendQuery } from '../../features/friend/friendApi';
 
 const AddFriends = () => {
     const {data}=useAllFriendQuery()
+    
     // console.log(data.data);
     return (
         <section className="w-full md:flex-row flex flex-col items-center justify-center">

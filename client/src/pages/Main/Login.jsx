@@ -43,16 +43,16 @@ const Login = () => {
       reset()
     }
     if (!isLoading && isError) {
-      toast.error(error?.data.message, { id: "user" })
+      toast.error(error?.data?.message, { id: "user" })
     }
     if(error){
-      if(error?.data.message.includes("Password")){
+      if(error?.data?.message?.includes("Password")){
         setFocus("password")
-        setEye({...eye,field:"password",value:error?.data.message})
+        setEye({...eye,field:"password",value:error?.data?.message})
       }
-      if(error?.data.message.includes("No User")){
+      if(error?.data?.message?.includes("No User")){
         setFocus("email")
-        setEye({...eye,field:"email",value:error?.data.message})
+        setEye({...eye,field:"email",value:error?.data?.message})
       }
     }
   },[isError,isLoading,isSuccess,error,reset,token,setFocus,eye,navigate])
@@ -71,7 +71,7 @@ const Login = () => {
      }
       // console.log(accessToken)
     } catch (err) {
-      // toast.error(err?.data?.message || err.error);
+      toast.error(err?.data?.message || err.error);
       console.log(err)
     }
   };

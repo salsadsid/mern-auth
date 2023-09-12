@@ -22,5 +22,9 @@ exports.findAndUpdateUserProfile=async(userId,data)=>{
 }
 
 exports.createFriendModel=async(name,email,id)=>{
+    const result= await Friend.findOne({'user.email':email});
+    if(result){
+        return;
+    }
     return await Friend.create({user:{name:name,email:email,id:id}})
 }
