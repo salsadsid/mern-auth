@@ -21,6 +21,7 @@ const friendSchema = mongoose.Schema(
           type: ObjectId,
           ref: "User",
         },
+        _id:false
       },
     ],
     requests: [
