@@ -25,9 +25,14 @@ const friendApi= apiSlice.injectEndpoints({
                 method:"PATCH",
                 body:data
             })
+        }),
+        allMyFriends:builder.query({
+            query:(email)=>({
+                url:`friend/all-my-friend/${email}`
+            })
         })
     })
 
 })
 
-export const {useAllFriendQuery,useAddFriendRequestMutation,useAllFriendRequestQuery,useAcceptFriendRequestMutation}=friendApi
+export const {useAllFriendQuery,useAddFriendRequestMutation,useAllFriendRequestQuery,useAcceptFriendRequestMutation,useAllMyFriendsQuery}=friendApi
