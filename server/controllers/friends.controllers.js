@@ -21,11 +21,24 @@ exports.allFriends=async(req,res,next)=>{
 
 exports.addFriendRequest=async(req,res,next)=>{
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const result= await addFriendRequestService(req.body.userId,{email:req.body.email,name:req.body.name,id:req.body.id});
-    // console.log(result,"sas");
+    // console.log(result,"sal");
+    if(result.modifiedCount){
+      res.status(200).json({
+        status: "Success",
+      });
+    }
+    if(result==undefined){
+      res.status(200).json({
+        status: "Request Not Sent!",
+      });
+    }
   } catch (error) {
-    
+    res.status(500).json({
+      status: "Fail",
+      error,
+    });
   }
 }
 
@@ -50,10 +63,20 @@ exports.acceptFriendRequest=async(req,res,next)=>{
   try {
     // console.log(req.body);
     const result= await acceptFriendRequestService(req.body.userId,{email:req.body.email,name:req.body.name,id:req.body.id})
-    // console.log(result);
+    
     if(result){
       const result2 = await removeRequestService(req.body.userId,{email:req.body.email,name:req.body.name,id:req.body.id})
-      console.log(result2);
+      // console.log(result2);
+    }
+    if(result.modifiedCount){
+      res.status(200).json({
+        status: "Success",
+      });
+    }
+    if(result==undefined){
+      res.status(200).json({
+        status: "Request Not Accepted!",
+      });
     }
   } catch (error) {
     

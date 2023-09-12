@@ -7,6 +7,7 @@ exports.allFriendsService=async()=>{
 
 exports.addFriendRequestService=async(id,request)=>{
     const findFriend= await Friend.findOne({'user.id':id,'requests.email':request.email})
+    // console.log(findFriend,"salman");
     if(findFriend){
         return; 
     }
@@ -23,7 +24,6 @@ exports.acceptFriendRequestService=async(id,request)=>{
     if(findFriend){
         return; 
     }
-
     const result= await Friend.updateOne({'user.id':id},{$push:{'friends':{email:request.email,id:request.id,name:request.name}}})
     // if(result){
     //     const result2=await Friend.updateOne({'user.id':id},{$pull:{'requests.email':request.email}})

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentToken, setCredentials } from "../../features/auth/authSlice";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const Login = () => {
 
@@ -36,7 +37,7 @@ const Login = () => {
       navigate("/")
     }
     if(isLoading){
-      toast.loading("Logging into your account",{id:"user"})
+            toast.loading("Logging into your account",{id:"user"})
     }
     if (isSuccess) {
       toast.success("Login Successful", { id: "user" })

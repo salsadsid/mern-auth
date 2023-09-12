@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAddFriendRequestMutation } from '../features/friend/friendApi';
 import useAuth from '../hooks/useAuth';
 import { useUserDetailsQuery } from '../features/auth/authApi';
+import toast from 'react-hot-toast';
 
 const AddFriendCard = ({friend}) => {
     // console.log(friend);
     const { email, role } = useAuth();
     const {data:userInfo,isLoading}=useUserDetailsQuery(email)
-    const [handleRequest]=useAddFriendRequestMutation()
+    const [handleRequest,{status,isSuccess,isLoading:isLoading2,isError}]=useAddFriendRequestMutation()
     const handleFriendRequest=(data)=>{
       const friendData={
         userId:friend._id,
@@ -15,10 +16,22 @@ const AddFriendCard = ({friend}) => {
         email:userInfo.email,
         id:userInfo._id,
       }
-      console.log(friendData);
-      const res=  handleRequest(friendData);
-      console.log(res);
+      // console.log(friendData);
+      handleRequest(friendData);
+      // console.log(status);
+      // console.log(isSuccess);
     }
+    useEffect(()=>{
+      if(isLoading2){
+        toast.loading("Sending Friend Request",{id:"request"})
+      }
+      if(isSuccess){
+        toast.success("Request Sended Successfully",{id:"request"})
+      }
+      if(isError){
+        toast.error("Request Not Sended",{id:"request"})
+      }
+    },[status,isSuccess,isLoading2,isError])
     const base64String = btoa(
         String.fromCharCode(...new Uint8Array(friend?.img?.data?.data))
       );

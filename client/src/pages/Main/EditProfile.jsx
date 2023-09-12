@@ -37,9 +37,11 @@ const EditProfile = () => {
     });
   }, [isSuccess]);
   // console.log(userInfo);
-  if (isLoading || isLoading2) {
-    return <BeatLoader color="#36d7b7" />;
-  }
+  if(isLoading || isLoading2){
+    return <div className="h-80 flex items-center justify-center" >
+        <BeatLoader color="#2563EB" />
+    </div>
+}
 
   const submit = (data) => {
 

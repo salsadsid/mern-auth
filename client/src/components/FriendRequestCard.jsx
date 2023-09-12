@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
 import { useUserDetailsQuery } from '../features/auth/authApi';
 import { useAcceptFriendRequestMutation } from '../features/friend/friendApi';
+import toast from 'react-hot-toast';
 
 const FriendRequestCard = ({request}) => {
   const { email, role } = useAuth();
   const {data:userInfo,isLoading}=useUserDetailsQuery(email)
-  const [handleRequestAccept]=useAcceptFriendRequestMutation()
+  const [handleRequestAccept,{status,isLoading:isLoading2,isError,isSuccess}]=useAcceptFriendRequestMutation()
     const {id}=request
 
     const handleAcceptFriendRequest=(data)=>{
@@ -16,10 +17,21 @@ const FriendRequestCard = ({request}) => {
         email:request.id.email,
         id:request.id._id,
       }
-      console.log(friendData);
-      const res=  handleRequestAccept(friendData);
-      console.log(res);
+      // console.log(friendData);
+      handleRequestAccept(friendData);
+      // console.log(res);
     }
+    useEffect(()=>{
+      if(isLoading2){
+        toast.loading("Accepting friend request",{id:"accept"})
+      }
+      if(isSuccess){
+        toast.success("Request accepted",{id:"accept"})
+      }
+      if(isError){
+        toast.error("Fail to accept request",{id:"accept"})
+      }
+    },[status,isSuccess,isLoading2,isError])
     const base64String = btoa(
         String.fromCharCode(...new Uint8Array(id?.img?.data?.data))
       );

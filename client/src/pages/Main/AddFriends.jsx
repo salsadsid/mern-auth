@@ -1,10 +1,15 @@
 import React from 'react';
 import AddFriendCard from '../../components/AddFriendCard';
 import { useAllFriendQuery } from '../../features/friend/friendApi';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 const AddFriends = () => {
-    const {data}=useAllFriendQuery()
-    
+    const {data,isLoading}=useAllFriendQuery()
+    if(isLoading){
+        return <div className="h-80 flex items-center justify-center" >
+            <BeatLoader color="#2563EB" />
+        </div>
+    }
     // console.log(data.data);
     return (
         <section className="w-full md:flex-row flex flex-col items-center justify-center">
